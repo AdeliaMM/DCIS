@@ -30,11 +30,26 @@ class WeightedGraph {
       curr_ = Path(path_id);
       SetProfit();
     }
-    return !edges_[curr_][Path(path_id)].second;  // Возвращает 1, если успешно переместился
+    return !edges_[curr_][Path(path_id)].second;  // Возвращает true, если успешно переместился
   }
 
   void PrintMove(const std::string& path_id) {  // Иллюстрирующая реализация Move
     std::cout << (Move(path_id) ? "OK\n" : "FAIL\n");
+  }
+
+  void Clear(const std::string& path_id) {  // Считаем, что мы расчищаем только заваленные коридоры прямо перед нами
+    profit_ -= day_cost;
+    ++days_;
+    edges_[curr_][Path(path_id)].second = 0;
+    edges_[Path(path_id)][curr_].second = 0;
+  }
+
+  void PrintClear(const std::string& path_id) {
+    std::cout << "OK\n";
+  }
+
+  void PrintEnd() {
+    std::cout << profit_ + days_ * day_cost_ << " " << days_ << " " << profit_;
   }
 
  private:
@@ -135,7 +150,12 @@ int main() {
       std::cin >> path_id;
       graph.PrintMove(path_id);
     }
+    else if (input == "CLEAR") {
+      std::cin >> path_id;
+      graph.PrintClear(path_id);
+    }
     else if (input == "END") {
+      graph.PrintEnd();
       break;
     }
   }
