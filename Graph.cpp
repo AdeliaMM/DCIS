@@ -38,13 +38,14 @@ class WeightedGraph {
   }
 
   void Clear(const std::string& path_id) {  // Считаем, что мы расчищаем только заваленные коридоры прямо перед нами
-    profit_ -= day_cost;
+    profit_ -= day_cost_;
     ++days_;
     edges_[curr_][Path(path_id)].second = 0;
     edges_[Path(path_id)][curr_].second = 0;
   }
 
   void PrintClear(const std::string& path_id) {
+    Clear(path_id);
     std::cout << "OK\n";
   }
 
